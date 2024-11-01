@@ -34,8 +34,5 @@ public class ApiController {
         return "ok";
     }
 
-
-
-
 }
 
