@@ -1,2 +1,3 @@
-![스크린샷 2024-11-01 12.44.33.png](../../../../Desktop/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-11-01%2012.44.33.png)
-![스크린샷 2024-11-01 12.45.05.png](../../../../Desktop/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-11-01%2012.45.05.png)
+<img width="119" alt="1" src="https://github.com/user-attachments/assets/aae22e0d-9d2c-462e-9e93-c3b67f24b1d1">
+
+<img width="901" alt="2" src="https://github.com/user-attachments/assets/5d0db221-b1ca-45ba-bd18-2079be4249fb">
