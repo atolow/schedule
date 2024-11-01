@@ -25,6 +25,7 @@ WHERE id =""
 선택한 일정을 수정하는 query를 작성
 UPDATE schedule
 SET title = ""
+where id=1
 
 선택한 일정을 삭제하는 query를 작성
 DELETE
