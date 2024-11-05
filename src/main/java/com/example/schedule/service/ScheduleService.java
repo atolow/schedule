@@ -12,6 +12,7 @@ public interface ScheduleService {
     List<Schedule> findAllSchedules(String username);
     Schedule findScheduleById(Long id);
     List<Schedule> findDateSchedules(LocalDateTime updateDate);
+    List<Schedule> findScheduleByUsernameOrByUpdateElseThrow(String username, LocalDateTime updateDate);
     Schedule updateSchedule(Long id, String title, String content, LocalDateTime updateTime,String password,String username);
     Schedule updateTitle(Long id, String title, String content, LocalDateTime updateTime,String password);
 

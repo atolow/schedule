@@ -31,7 +31,7 @@ public class ScheduleController {
 
     @GetMapping
     public List<Schedule> findAllSchedules(
-            @RequestParam(required = false, value ="username") String username) {
+            @RequestParam(required = false, value = "username") String username) {
 
         return scheduleService.findAllSchedules(username);
     }
@@ -41,17 +41,26 @@ public class ScheduleController {
             @PathVariable(value = "id") Long id) {
 
         Schedule schedule = scheduleService.findScheduleById(id);
-        if(schedule==null){
+        if (schedule == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
     }
+
     @GetMapping("/date")
     public List<Schedule> findScheduleByDate(
             @RequestParam(required = true, value = "updateDate")
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime updateDate){
+            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime updateDate) {
         return scheduleService.findDateSchedules(updateDate);
+    }
+
+    @GetMapping("/find")
+    public List<Schedule> findScheduleByUsernameOrDate(
+            @RequestParam(required = false, value = "username") String username,
+            @RequestParam(required = false, value = "updateDate") LocalDateTime updateDate) {
+
+        return scheduleService.findScheduleByUsernameOrByUpdateElseThrow(username, updateDate);
     }
 
 
@@ -61,7 +70,7 @@ public class ScheduleController {
             @RequestBody Schedule dto
     ) {
 
-        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContent(),dto.getUpdateDate(),dto.getPassword(), dto.getUsername()), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContent(), dto.getUpdateDate(), dto.getPassword(), dto.getUsername()), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
@@ -69,7 +78,7 @@ public class ScheduleController {
             @PathVariable(value = "id") Long id,
             @RequestBody Schedule dto
     ) {
-        return new ResponseEntity<>(scheduleService.updateTitle(id, dto.getTitle(), dto.getContent(),dto.getUpdateDate(), dto.getPassword()), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateTitle(id, dto.getTitle(), dto.getContent(), dto.getUpdateDate(), dto.getPassword()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -77,7 +86,7 @@ public class ScheduleController {
             (@PathVariable(value = "id") Long id,
              @RequestBody Schedule dto
             ) {
-        scheduleService.deleteSchedule(id,dto.getPassword());
+        scheduleService.deleteSchedule(id, dto.getPassword());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

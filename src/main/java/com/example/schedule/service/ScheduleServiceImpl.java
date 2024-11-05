@@ -50,6 +50,22 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.findScheduleByDateOrElseThrow(updateDate);
     }
 
+    @Override
+    public List<Schedule> findScheduleByUsernameOrByUpdateElseThrow(String username, LocalDateTime updateDate) {
+        if(username==null && updateDate==null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The username or update is required values.");
+        }
+        else if(username!=null && updateDate==null){
+            return scheduleRepository.findScheduleByUsernameOrElseThrow(username);
+        }
+        else if(username==null && updateDate!=null){
+            return scheduleRepository.findScheduleByDateOrElseThrow(updateDate);
+        }
+        else {
+            return scheduleRepository.findScheduleByUsernameOrByUpdateElseThrow(username, updateDate);
+        }
+    }
+
 
     @Transactional
     @Override

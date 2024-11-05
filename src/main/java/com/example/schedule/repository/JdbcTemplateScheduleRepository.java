@@ -67,9 +67,17 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     public List<Schedule> findScheduleByUsernameOrElseThrow(String username){
         return jdbcTemplate.query("Select * from schedule where username=?", scheduleRowMapperV2(), username);
     }
+
+
     @Override
     public List<Schedule> findScheduleByDateOrElseThrow(LocalDateTime updateDate){
         List<Schedule> scheduleList = jdbcTemplate.query("Select * from schedule where updateDate=?", scheduleRowMapperV2(), updateDate);
+        return scheduleList;
+    }
+
+    @Override
+    public List<Schedule> findScheduleByUsernameOrByUpdateElseThrow(String username, LocalDateTime updateDate) {
+        List<Schedule> scheduleList = jdbcTemplate.query("Select * from schedule where username=? or updateDate=?",scheduleRowMapperV2(),username,updateDate);
         return scheduleList;
     }
 

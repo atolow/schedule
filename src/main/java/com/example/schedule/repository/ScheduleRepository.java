@@ -22,6 +22,10 @@ public interface ScheduleRepository {
 
 
     List<Schedule> findScheduleByDateOrElseThrow(LocalDateTime updateDate);
+
+    List<Schedule> findScheduleByUsernameOrByUpdateElseThrow(String username,LocalDateTime updateDate);
+
+
     int updateSchedule(Long id, String title, String content, LocalDateTime updateDate, String password, String username);
 
     int updateTitle(Long id, String title,LocalDateTime updateDate);
