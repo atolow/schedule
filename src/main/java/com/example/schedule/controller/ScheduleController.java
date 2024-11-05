@@ -38,6 +38,11 @@ public class ScheduleController {
     public ResponseEntity<Schedule> findScheduleById(
             @PathVariable(value = "id") Long id) {
 
+        Schedule schedule = scheduleService.findScheduleById(id);
+        if(schedule==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
     }
 
