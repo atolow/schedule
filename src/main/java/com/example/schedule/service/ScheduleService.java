@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ScheduleService {
     Schedule joinSchedule(Schedule schedule) throws ChangeSetPersister.NotFoundException;
-    List<Schedule> findAllSchedules();
+    List<Schedule> findAllSchedules(String username);
     Schedule findScheduleById(Long id);
     Schedule updateSchedule(Long id, String title, String content, Date updateTime,String password);
     Schedule updateTitle(Long id, String title, String content, Date updateTime,String password);

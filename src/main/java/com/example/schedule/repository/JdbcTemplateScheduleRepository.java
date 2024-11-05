@@ -58,6 +58,11 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     }
 
     @Override
+    public List<Schedule> findScheduleByUsernameOrElseThrow(String username){
+        return jdbcTemplate.query("Select * from schedule where username=?", scheduleRowMapperV2(), username);
+    }
+
+    @Override
     public Schedule findScheduleByIdOrElseThrow(Long id) {
         List<Schedule> result = jdbcTemplate.query("select * from schedule where id=?", scheduleRowMapperV2(), id);
 

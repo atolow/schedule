@@ -27,16 +27,20 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public List<Schedule> findAllSchedules() {
-        return scheduleService.findAllSchedules();
+    public List<Schedule> findAllSchedules(
+            @RequestParam(required = false, value ="username") String username)
+    {
+
+        return scheduleService.findAllSchedules(username);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Schedule> findMScheduleById(
+    public ResponseEntity<Schedule> findScheduleById(
             @PathVariable(value = "id") Long id) {
 
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Schedule> updateSchedule(

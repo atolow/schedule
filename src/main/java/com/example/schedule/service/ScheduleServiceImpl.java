@@ -1,5 +1,6 @@
 package com.example.schedule.service;
 
+import ch.qos.logback.core.util.StringUtil;
 import com.example.schedule.domain.Schedule;
 import com.example.schedule.repository.ScheduleRepository;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -30,9 +32,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> findAllSchedules() {
-        List<Schedule> allMemos = scheduleRepository.findAllSchedules();
-        return allMemos;
+    public List<Schedule> findAllSchedules(String username) {
+        if (StringUtils.isEmpty(username)){
+            return scheduleRepository.findAllSchedules();
+        }
+        return scheduleRepository.findScheduleByUsernameOrElseThrow(username);
     }
 
     @Override

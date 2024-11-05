@@ -15,6 +15,8 @@ public interface ScheduleRepository {
 
     Optional<Schedule> findScheduleById(Long id);
 
+    List<Schedule> findScheduleByUsernameOrElseThrow(String username);
+
     Schedule findScheduleByIdOrElseThrow(Long id);
     int updateSchedule(Long id, String title, String content, Date updateDate, String password);
 
