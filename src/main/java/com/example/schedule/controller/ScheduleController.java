@@ -58,6 +58,7 @@ public class ScheduleController {
     @GetMapping("/find")
     public List<Schedule> findScheduleByUsernameOrDate(
             @RequestParam(required = false, value = "username") String username,
+            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
             @RequestParam(required = false, value = "updateDate") LocalDateTime updateDate) {
 
         return scheduleService.findScheduleByUsernameOrByUpdateElseThrow(username, updateDate);
