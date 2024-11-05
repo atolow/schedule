@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -16,13 +17,13 @@ public class Schedule {
     private Long id;
     private String title;
     private String content;
-    private Date createDate;
-    private Date updateDate;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
     private String password;
     private String username;
 
 
-    public Schedule(Long id, String title, String content, Date createDate, Date updateDate,String password, String username) {
+    public Schedule(Long id, String title, String content, LocalDateTime createDate, LocalDateTime updateDate,String password, String username) {
         this.id = id;
         this.title = title;
         this.content = content;

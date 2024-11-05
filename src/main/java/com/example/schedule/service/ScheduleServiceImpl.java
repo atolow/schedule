@@ -1,6 +1,5 @@
 package com.example.schedule.service;
 
-import ch.qos.logback.core.util.StringUtil;
 import com.example.schedule.domain.Schedule;
 import com.example.schedule.repository.ScheduleRepository;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -10,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import org.thymeleaf.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -24,10 +24,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public Schedule joinSchedule(Schedule dto) throws ChangeSetPersister.NotFoundException {
         Schedule schedule = new Schedule(dto.getId(), dto.getTitle(), dto.getContent(), dto.getCreateDate(), dto.getUpdateDate(), dto.getPassword(), dto.getUsername());
-
-
         //DB 저장
-
         return scheduleRepository.saveSchedule(schedule);
     }
 
@@ -41,15 +38,22 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Schedule findScheduleById(Long id) {
-        Schedule memo = scheduleRepository.findScheduleByIdOrElseThrow(id);
+        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
         // NPE 방지
 
-        return new Schedule(memo);
+        return new Schedule(schedule);
     }
+
+    @Override
+    public List<Schedule> findDateSchedules(LocalDateTime updateDate) {
+
+        return scheduleRepository.findScheduleByDateOrElseThrow(updateDate);
+    }
+
 
     @Transactional
     @Override
-    public Schedule updateSchedule(Long id, String title, String content, Date updateDate, String password) {
+    public Schedule updateSchedule(Long id, String title, String content, LocalDateTime updateDate, String password,String username) {
 
         if (title == null || content == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The title or content is required values.");
@@ -62,7 +66,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         }
 
-        int updateRow = scheduleRepository.updateSchedule(id, title, content, updateDate,password);
+        int updateRow = scheduleRepository.updateSchedule(id, title, content, updateDate,password,username);
 
         if (updateRow == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
@@ -75,7 +79,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional
     @Override
-    public Schedule updateTitle(Long id, String title, String content, Date updateDate,String password) {
+    public Schedule updateTitle(Long id, String title, String content, LocalDateTime updateDate,String password) {
         if (title == null || content != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The title or content is required values.");
         }
