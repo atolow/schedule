@@ -1,6 +1,7 @@
 package com.example.schedule.repository;
 
 import com.example.schedule.domain.Schedule;
+import com.example.schedule.dto.ScheduleDto;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.time.LocalDateTime;
@@ -10,25 +11,25 @@ import java.util.Optional;
 
 public interface ScheduleRepository {
 
-    Schedule saveSchedule(Schedule schedule) throws ChangeSetPersister.NotFoundException;
+    ScheduleDto saveSchedule(ScheduleDto schedule) throws ChangeSetPersister.NotFoundException;
 
-    List<Schedule> findAllSchedules();
+    List<ScheduleDto> findAllSchedules();
 
-    Optional<Schedule> findScheduleById(Long id);
+    Optional<ScheduleDto> findScheduleById(Long id);
 
-    Schedule findScheduleByIdOrElseThrow(Long id);
+    ScheduleDto findScheduleByIdOrElseThrow(Long id);
 
-    List<Schedule> findScheduleByUsernameOrElseThrow(String username);
-
-
-    List<Schedule> findScheduleByDateOrElseThrow(LocalDateTime updateDate);
-
-    List<Schedule> findScheduleByUsernameOrByUpdateElseThrow(String username,LocalDateTime updateDate);
+    List<ScheduleDto> findScheduleByUsernameOrElseThrow(String username);
 
 
-    int updateSchedule(Long id, String title, String content, LocalDateTime updateDate, String password, String username);
+    List<ScheduleDto> findScheduleByDateOrElseThrow(LocalDateTime updateDate);
 
-    int updateTitle(Long id, String title,LocalDateTime updateDate);
+    List<ScheduleDto> findScheduleByUsernameOrByUpdateElseThrow(String username,LocalDateTime updateDate);
+
+
+    int updateSchedule(Long id, String title, String content, String password, String username);
+
+    int updateTitle(Long id, String title,LocalDateTime updateDate,String password,String username);
 
     int deleteSchedule(Long id);
 }

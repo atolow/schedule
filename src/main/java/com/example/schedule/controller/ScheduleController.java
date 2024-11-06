@@ -1,6 +1,7 @@
 package com.example.schedule.controller;
 
 import com.example.schedule.domain.Schedule;
+import com.example.schedule.dto.ScheduleDto;
 import com.example.schedule.service.ScheduleService;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,24 +24,24 @@ public class ScheduleController {
     }
 
     @PostMapping
-    public ResponseEntity<Schedule> createSchedule(@RequestBody Schedule dto) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<ScheduleDto> createSchedule(@RequestBody ScheduleDto dto) throws ChangeSetPersister.NotFoundException {
         //Service Layer 호출,응답
 
         return new ResponseEntity<>(scheduleService.joinSchedule(dto), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<Schedule> findAllSchedules(
+    public List<ScheduleDto> findAllSchedules(
             @RequestParam(required = false, value = "username") String username) {
 
         return scheduleService.findAllSchedules(username);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Schedule> findScheduleById(
+    public ResponseEntity<ScheduleDto> findScheduleById(
             @PathVariable(value = "id") Long id) {
 
-        Schedule schedule = scheduleService.findScheduleById(id);
+        ScheduleDto schedule = scheduleService.findScheduleById(id);
         if (schedule == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -49,14 +50,14 @@ public class ScheduleController {
     }
 
     @GetMapping("/date")
-    public List<Schedule> findScheduleByDate(
+    public List<ScheduleDto> findScheduleByDate(
             @RequestParam(required = true, value = "updateDate")
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime updateDate) {
         return scheduleService.findDateSchedules(updateDate);
     }
 
     @GetMapping("/find")
-    public List<Schedule> findScheduleByUsernameOrDate(
+    public List<ScheduleDto> findScheduleByUsernameOrDate(
             @RequestParam(required = false, value = "username") String username,
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
             @RequestParam(required = false, value = "updateDate") LocalDateTime updateDate) {
@@ -66,20 +67,20 @@ public class ScheduleController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Schedule> updateSchedule(
+    public ResponseEntity<ScheduleDto> updateSchedule(
             @PathVariable(value = "id") Long id,
             @RequestBody Schedule dto
     ) {
 
-        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContent(), dto.getUpdateDate(), dto.getPassword(), dto.getUsername()), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getTitle(), dto.getContent(), dto.getPassword(), dto.getUsername()), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Schedule> updateScheduleById(
+    public ResponseEntity<ScheduleDto> updateScheduleById(
             @PathVariable(value = "id") Long id,
             @RequestBody Schedule dto
     ) {
-        return new ResponseEntity<>(scheduleService.updateTitle(id, dto.getTitle(), dto.getContent(), dto.getUpdateDate(), dto.getPassword()), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateTitle(id, dto.getTitle(), dto.getUpdateDate(), dto.getPassword(),dto.getUsername()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

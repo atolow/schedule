@@ -1,6 +1,7 @@
 package com.example.schedule.service;
 
 import com.example.schedule.domain.Schedule;
+import com.example.schedule.dto.ScheduleDto;
 import com.example.schedule.repository.ScheduleRepository;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.thymeleaf.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,14 +22,14 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Schedule joinSchedule(Schedule dto) throws ChangeSetPersister.NotFoundException {
-        Schedule schedule = new Schedule(dto.getId(), dto.getTitle(), dto.getContent(), dto.getCreateDate(), dto.getUpdateDate(), dto.getPassword(), dto.getUsername());
+    public ScheduleDto joinSchedule(ScheduleDto dto) throws ChangeSetPersister.NotFoundException {
+        ScheduleDto schedule = new ScheduleDto(dto.getId(), dto.getTitle(), dto.getContent(), dto.getPassword(), dto.getUsername(), dto.getUserId());
         //DB 저장
         return scheduleRepository.saveSchedule(schedule);
     }
 
     @Override
-    public List<Schedule> findAllSchedules(String username) {
+    public List<ScheduleDto> findAllSchedules(String username) {
         if (StringUtils.isEmpty(username)){
             return scheduleRepository.findAllSchedules();
         }
@@ -37,21 +37,21 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Schedule findScheduleById(Long id) {
-        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+    public ScheduleDto findScheduleById(Long id) {
+        ScheduleDto schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
         // NPE 방지
 
-        return new Schedule(schedule);
+        return new ScheduleDto(schedule);
     }
 
     @Override
-    public List<Schedule> findDateSchedules(LocalDateTime updateDate) {
+    public List<ScheduleDto> findDateSchedules(LocalDateTime updateDate) {
 
         return scheduleRepository.findScheduleByDateOrElseThrow(updateDate);
     }
 
     @Override
-    public List<Schedule> findScheduleByUsernameOrByUpdateElseThrow(String username, LocalDateTime updateDate) {
+    public List<ScheduleDto> findScheduleByUsernameOrByUpdateElseThrow(String username, LocalDateTime updateDate) {
         if(username==null && updateDate==null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The username or update is required values.");
         }
@@ -69,60 +69,59 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional
     @Override
-    public Schedule updateSchedule(Long id, String title, String content, LocalDateTime updateDate, String password,String username) {
+    public ScheduleDto updateSchedule(Long id, String title, String content, String password,String username) {
 
         if (title == null || content == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The title or content is required values.");
         }
 
-        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+        ScheduleDto schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
 
         if(!schedule.getPassword().equals(password)){
             throw new RuntimeException("비밀번호가 다릅니다.");
 
         }
 
-        int updateRow = scheduleRepository.updateSchedule(id, title, content, updateDate,password,username);
+        int updateRow = scheduleRepository.updateSchedule(id, title, content, password,username);
 
         if (updateRow == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
         }
+        schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+
 //        if ( optionalMemo.isEmpty()) {
 //            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
 //        }
-        return new Schedule(schedule);
+        return new ScheduleDto(schedule);
     }
 
     @Transactional
     @Override
-    public Schedule updateTitle(Long id, String title, String content, LocalDateTime updateDate,String password) {
-        if (title == null || content != null) {
+    public ScheduleDto updateTitle(Long id, String title, LocalDateTime updateDate,String password,String username) {
+        if (title == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The title or content is required values.");
         }
 
-        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+        ScheduleDto schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
 
         if(!schedule.getPassword().equals(password)){
             throw new RuntimeException("비밀번호가 다릅니다.");
+
         }
 
-        int updatedRow = scheduleRepository.updateTitle(id, title, updateDate);
+        int updateRow = scheduleRepository.updateTitle(id, title,updateDate, password,username);
 
-        if (updatedRow == 0) {
+        if (updateRow == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
         }
-
-//        if ( optionalMemo.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
-//        }
-
-        return new Schedule(schedule);
+        schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+        return new ScheduleDto(schedule);
     }
 
     @Override
     public void deleteSchedule(Long id, String password) {
 
-        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
+        ScheduleDto schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
         if(!schedule.getPassword().equals(password)){
             throw new RuntimeException("비밀번호가 다릅니다.");
         }

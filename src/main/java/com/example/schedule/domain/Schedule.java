@@ -21,9 +21,10 @@ public class Schedule {
     private LocalDateTime updateDate;
     private String password;
     private String username;
+    private Long userId;
 
 
-    public Schedule(Long id, String title, String content, LocalDateTime createDate, LocalDateTime updateDate,String password, String username) {
+    public Schedule(Long id, String title, String content, LocalDateTime createDate, LocalDateTime updateDate,String password, String username,Long userId) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -31,6 +32,8 @@ public class Schedule {
         this.updateDate = updateDate;
         this.password =password;
         this.username=username;
+        this.userId=userId;
+
     }
     public Schedule(Schedule saveSchedule) {
         this.id = saveSchedule.getId();
@@ -40,6 +43,7 @@ public class Schedule {
         this.updateDate = saveSchedule.getUpdateDate();
         this.password = saveSchedule.getPassword();
         this.username =saveSchedule.getUsername();
+        this.userId = saveSchedule.getUserId();
     }
 
 
