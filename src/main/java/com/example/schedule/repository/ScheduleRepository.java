@@ -1,11 +1,9 @@
 package com.example.schedule.repository;
 
-import com.example.schedule.domain.Schedule;
 import com.example.schedule.dto.ScheduleDto;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +23,7 @@ public interface ScheduleRepository {
     List<ScheduleDto> findScheduleByDateOrElseThrow(LocalDateTime updateDate);
 
     List<ScheduleDto> findScheduleByUsernameOrByUpdateElseThrow(String username,LocalDateTime updateDate);
+
 
 
     int updateSchedule(Long id, String title, String content, String password, String username);

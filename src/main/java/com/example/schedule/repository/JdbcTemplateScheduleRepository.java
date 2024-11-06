@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Repository
@@ -27,6 +26,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
 
     @Override
     public ScheduleDto saveSchedule(ScheduleDto schedule) throws ChangeSetPersister.NotFoundException {
+
         LocalDateTime now2 = LocalDateTime.now();
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName("schedule").usingGeneratedKeyColumns("id");
@@ -82,6 +82,8 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         return scheduleList;
     }
 
+
+
     @Override
     public int updateSchedule(Long id, String title, String content,  String password, String username) {
         LocalDateTime now2 = LocalDateTime.now();
@@ -104,6 +106,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         int updatedRow = jdbcTemplate.update("delete from schedule where id = ?", id);
         return updatedRow;
     }
+
 
 
 //    private RowMapper<Schedule> scheduleRowMapper(){

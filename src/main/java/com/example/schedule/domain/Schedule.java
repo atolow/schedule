@@ -9,11 +9,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
-@Setter
 @NoArgsConstructor //생성자만듬
 public class Schedule {
-
-    @Setter
     private Long id;
     private String title;
     private String content;
