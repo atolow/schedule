@@ -64,6 +64,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id));
     }
 
+
     @Override
     public List<ScheduleDto> findScheduleByUsernameOrElseThrow(String username) {
         return jdbcTemplate.query("Select * from schedule where username=?", scheduleRowMapperV2(), username);

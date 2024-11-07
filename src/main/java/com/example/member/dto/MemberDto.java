@@ -3,7 +3,6 @@ package com.example.member.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -12,14 +11,14 @@ import java.time.LocalDateTime;
 @Builder
 public class MemberDto {
     private Long id;
-    private String username;
+    private String userName;
     private String email;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 
-    public MemberDto(Long id, String username, String email, LocalDateTime createDate, LocalDateTime updateDate) {
+    public MemberDto(Long id, String userName, String email, LocalDateTime createDate, LocalDateTime updateDate) {
         this.id = id;
-        this.username = username;
+        this.userName = userName;
         this.email = email;
         this.createDate = createDate;
         this.updateDate = updateDate;

@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/members")
 public class MemberController {
@@ -32,5 +34,9 @@ public class MemberController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(memberService.findMemberById(id), HttpStatus.OK);
+    }
+    @GetMapping
+    public List<MemberDto> findAllMembers() {
+        return memberService.findAllMembers();
     }
 }
