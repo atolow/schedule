@@ -9,4 +9,5 @@ public interface MemberService {
     MemberDto joinMember(MemberDto memberDto) throws ChangeSetPersister.NotFoundException;
     MemberDto findMemberById(Long id);
     List<MemberDto> findAllMembers();
+    List<MemberDto> findMemberByUserId(Long id);
 }

@@ -61,6 +61,11 @@ public class JdbcTemplateMember implements MemberRepository{
         return memberDto;
     }
 
+    public List<MemberDto> findMemberByUserId(Long id) {
+        List<MemberDto> memberDto = jdbcTemplate.query("Select * from member INNER JOIN schedule ON member.id = schedule.userId where schedule.userId=?", memberDtoRowMapperV2(),id);
+        return memberDto;
+    }
+
 
 
     private RowMapper<MemberDto> memberDtoRowMapperV2() {

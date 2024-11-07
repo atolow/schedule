@@ -12,5 +12,5 @@ public interface MemberRepository {
     Optional<MemberDto> findMemberById(Long id);
     MemberDto findMemberByIdOrElseThrow(Long id);
     List<MemberDto> findAllMembers();
-//    List<MemberDto> findMemberByUserId(Long id);
+    List<MemberDto> findMemberByUserId(Long id);
 }

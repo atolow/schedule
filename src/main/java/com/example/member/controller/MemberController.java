@@ -39,4 +39,10 @@ public class MemberController {
     public List<MemberDto> findAllMembers() {
         return memberService.findAllMembers();
     }
+    @GetMapping("/find/{id}")
+    public List<MemberDto> findMemberByUserId(
+            @PathVariable(value = "id") Long id) {
+        List<MemberDto> memberDto = memberService.findMemberByUserId(id);
+        return memberDto;
+    }
 }

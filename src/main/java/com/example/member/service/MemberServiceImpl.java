@@ -34,6 +34,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<MemberDto> findAllMembers() {
         return memberRepository.findAllMembers();
-
+    }
+    @Override
+    public List<MemberDto> findMemberByUserId(Long id){
+        List<MemberDto> result= memberRepository.findMemberByUserId(id);
+        return result;
     }
 }
